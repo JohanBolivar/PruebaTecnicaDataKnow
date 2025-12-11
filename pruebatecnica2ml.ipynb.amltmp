@@ -1,3 +1,6 @@
 # Jupyter / Azure temporales
 *.amltmp
 *.ipynb_aml_checkpoints
+
+git rm --cached -r *.amltmp
+git rm --cached -r .ipynb_aml_checkpoints
