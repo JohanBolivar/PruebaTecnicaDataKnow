@@ -1,84 +1,70 @@
 # **Prueba técnica 2: Caso de Negocio: Asesor legal para consulta historia de demandas** 
 ## **Explicación del Caso**
-El consultorio legal busca automatizar la consulta de historiales de demandas para mejorar la eficiencia de su asesoría. Actualmente, los abogados revisan manualmente un Excel con diferentes casos y sus sentencias finales. Para esta prueba de concepto (PoC), se decidió evaluar la efectividad de Generative AI para responder preguntas legales en lenguaje coloquial, enfocándose en demandas relacionadas con redes sociales.
-
-El objetivo es que la AI pueda:
-- Responder rápidamente sobre sentencias de casos anteriores.
-- Dar detalles de las demandas en lenguaje entendible para clientes sin conocimientos legales.
+El consultorio jurídico desea automatizar la consulta de historiales de demandas para mejorar la rapidez y claridad de las asesorías a clientes. Actualmente, los abogados revisan manualmente un archivo Excel con múltiples casos y sentencias.
+El objetivo de esta prueba era evaluar si una IA podía:
+- Buscar casos similares a una consulta legal.
+- Extraer campos relevantes de cada sentencia.
+- Explicar cada caso en lenguaje coloquial, sin tecnicismos, para facilitar su comprensión por parte de clientes.
+La prueba se enfocó en tres temas principales:
+- Demandas relacionadas con redes sociales
+- Casos de acoso escolar
+- Casos relacionados con PIAR
 
 ## **Supuestos**
-1. La base de datos de casos se encuentra en un archivo Excel (sentencias_pasadas.xlsx).
-2. Solo se consideran los campos relevantes: Providencia, Tipo, Fecha, Tema, Resuelve y Sintesis.
-3. La AI generativa se apoya en embeddings semánticos para recuperar casos similares.
-4. La prueba se limita a casos relacionados con redes sociales, acoso escolar y PIAR.
-5. Las respuestas deben ser en lenguaje coloquial, sin tecnicismos legales.
-
+- Para la solución se asumió lo siguiente:
+- Los datos originales provienen de un archivo Excel.
+- Los campos relevantes por caso son:
+  - Providencia, Tipo, FechaSentencia, Tema, Resumen/Síntesis.
+- El sistema usa:
+  - SentenceTransformers (all-MiniLM-L6-v2) para generar embeddings.
+  - ChromaDB como base de datos vectorial.
+- Las explicaciones coloquiales se generan usando un modelo de IA (Mistral 7B).
+- Las respuestas debían ser:
+  - Cortas
+  - Claras
+  - Sin vocabulario jurídico complejo
 
 ## **Formas para Resolver el Caso y Opción Tomada**
-### **Formas posibles**
-- Consulta manual: buscar en el Excel y redactar respuestas en lenguaje sencillo.
-- Automatización con IA: procesar el Excel, generar embeddings de cada caso y usar un modelo semántico para recuperar los casos más relevantes ante cualquier pregunta.
+### **Formas posibles: Revisión manual**
+Buscar en el Excel caso por caso y redactar explicaciones claras.
+- Poco eficiente, lento y no escalable.
 
-### **Opción tomada**
-Se implementó un flujo automatizado que hace:
-- Transformación del Excel a CSV y limpieza de datos.
-- Creación de un documento unificado para cada caso, combinando Providencia, Tipo, Fecha, Tema y Sintesis.
-- Generación de embeddings usando el modelo all-MiniLM-L6-v2 de sentence-transformers.
-- Inserción de documentos en ChromaDB, permitiendo búsquedas semánticas por consulta.
-- Implementación de la función buscar_casos(query, top_k) que retorna los casos más similares en lenguaje entendible.
-
+### **Opción tomada: Automatización con IA**
+Se implementó un flujo completo:
+1. Carga y limpieza de datos desde Excel.
+2. Construcción de un texto unificado para cada caso.
+3. Generación de embeddings con SentenceTransformers.
+4. Indexación en ChromaDB para permitir búsquedas semánticas.
+5. Función buscar_casos() para recuperar los casos más similares.
+6. Función a_lenguaje_coloquial() para explicar cada caso en lenguaje sencillo.
 
 ## **Resultados del análisis de los datos y los modelos**
+A continuación se presentan los resultados exactos generados por el sistema, según cada categoría solicitada.
+
 ### **Tres demandas sobre redes sociales**
-1. Caso 1:
-Providencia: 12345
-Tipo: Civil
-Fecha: 10/01/2023
-Tema: Uso indebido de redes sociales
-Resumen: El demandante acusó a otra persona de difamación en redes sociales. La sentencia determinó compensación económica por daños.
+1. Caso 1 (Lenguaje coloquial)
+(Extracto del resultado generado)
+Periodistas denunciaron ataques misóginos en Twitter. Alegaron que la Dirección Nacional Electoral no actuó para detener la violencia ni sancionar responsables. También cuestionaron que partidos políticos alentaran o toleraran las agresiones. Se analiza violencia en línea, libertad de expresión y sanciones a actores políticos.
 
-2. Caso 2:
-Providencia: 12346
-Tipo: Civil
-Fecha: 15/02/2023
-Tema: Difusión de información privada
-Resumen: El tribunal falló a favor del demandante y ordenó eliminar contenido y resarcir daños.
+2. Caso 2 (Lenguaje coloquial)
+Una mujer pidió protección por ataques en redes sociales, pero la Corte negó la acción por no cumplir requisitos. Determinó que ella no había intentado previamente otras alternativas para resolver el problema. Además, las plataformas no son responsables del contenido publicado por usuarios.
 
-3. Caso 3:
-Providencia: 12347
-Tipo: Civil
-Fecha: 20/03/2023
-Tema: Incitación al odio
-Resumen: Se sancionó al demandado con medidas correctivas y advertencias legales.
+3. Caso 3 (Lenguaje coloquial)
+Un ciudadano presentó una tutela porque alguien publicó su foto en Facebook con un texto falso e incitador de odio. La Corte declaró la tutela improcedente porque había otros mecanismos para resolver la situación antes de acudir al juez.
 
 ### **Caso de acoso escolar**
-1. Providencia: 22345
-Tipo: Penal
-Fecha: 05/04/2022
-Tema: Acoso escolar
-Resumen: El tribunal determinó que el acusado debía cumplir medidas correctivas y se le aplicó un seguimiento psicológico obligatorio.
+Un estudiante compartió imágenes íntimas de una menor. La escuela lo suspendió indefinidamente. Aunque el estudiante dijo que no tenía mala intención, la institución argumentó que la conducta era acoso escolar. La Corte analizó el debido proceso disciplinario en colegios.
 
 ### **Casos relacionados con PIAR**
-1. Caso 1:
-Providencia: 32345
-Tipo: Administrativo
-Fecha: 12/06/2021
-Tema: PIAR
-Resumen: La demanda estaba relacionada con la gestión de PIAR y se resolvió con ajustes en los procedimientos internos.
+1. Caso 1 (Lenguaje coloquial)
+Una madre demandó a la escuela porque no atendieron adecuadamente el acoso sufrido por su hija, quien desarrolló depresión y ansiedad. La institución tampoco aplicó un PIAR adecuado, afectando su rendimiento y promoviendo la violación de sus derechos.
 
-2. Caso 2:
-Providencia: 32346
-Tipo: Administrativo
-Fecha: 20/07/2021
-Tema: PIAR
-Resumen: Se recomendó mejorar la supervisión de PIAR y se implementaron nuevas medidas de control.
+2. Caso 2 (Lenguaje coloquial)
+Un recurso fue rechazado porque el demandante no corrigió los errores iniciales. La Corte concluyó que no aportó argumentos suficientes para subsanar las deficiencias legales señaladas en la inadmisión.
 
 3. Caso 3:
-Providencia: 32347
-Tipo: Administrativo
-Fecha: 05/08/2021
-Tema: PIAR
-Resumen: Se sancionaron irregularidades en la ejecución de PIAR y se dictaron instrucciones correctivas.
+Caso 3 (Lenguaje coloquial)
+Se presentó un conflicto entre dos juzgados sobre cuál debía conocer una demanda relacionada con pagos de servicios médicos no incluidos en el plan de beneficios. Ambos juzgados reclamaron competencia, generando la controversia.
 
 ### **Observaciones sobre el modelo**
 - La IA permite consultas rápidas en lenguaje sencillo.
@@ -86,9 +72,12 @@ Resumen: Se sancionaron irregularidades en la ejecución de PIAR y se dictaron i
 - La metodología es escalable para agregar más tipos de demandas y mejorar la cobertura del consultorio.
 
 
-### **Futuros Ajustes o Mejoras**
-- Integrar la respuesta generativa con un chat interactivo para que los clientes puedan consultar directamente.
-- Mejorar la calidad de las respuestas mediante fine-tuning con lenguaje legal simplificado.
-- Ampliar la base de datos para cubrir más tipos de demandas y sentencias.
-- Implementar métricas de precisión y relevancia de las respuestas de la IA.
-- Optimizar la indexación y el almacenamiento en ChromaDB para consultas masivas.
+## **Futuros Ajustes o Mejoras**
+- Conectar el sistema a un chat interactivo para consultas en tiempo real.
+- Optimizar el modelo generativo con fine-tuning para lenguaje legal simple.
+- Mejorar el manejo de textos extensos para evitar recortes.
+- Expandir la base de datos con más casos y categorías.
+- Crear métricas de evaluación de:
+  - Precisión de búsqueda
+  - Relevancia de resultados
+  - Calidad del lenguaje coloquial
