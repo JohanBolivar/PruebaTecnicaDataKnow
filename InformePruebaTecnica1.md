@@ -1,4 +1,4 @@
-# **Prueba técnica 1: ** 
+# **Prueba técnica 1: Caso de Negocio: Estimación de Costos de Equipos para Proyecto de Construcción** 
 ## **Explicación del Caso**
 La empresa constructora se encuentra en la fase de planificación de un proyecto con duración de 36 meses y necesita estimar los costos de dos equipos esenciales para la ejecución del proyecto. Los costos de los equipos son variables según los proveedores, pero se pueden aproximar en función del costo de sus materias primas:
 - Equipo 1: 20% materia prima X y 80% materia prima Y.
