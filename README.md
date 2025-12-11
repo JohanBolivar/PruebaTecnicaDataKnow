@@ -1,5 +1,5 @@
 # **Informe final**
-Repositorio creado para subir los archivos de la prueba técnica realizada para la empresa de DataKnow
+Repositorio creado para subir los archivos de la prueba técnica realizada para la empresa de DataKnow. Los archivos estaran almacenados en otra rama de nombre :Subir archivos
 
 ## **Prueba técnica 1: Caso de Negocio: Estimación de Costos de Equipos para Proyecto de Construcción** 
 ### **Explicación del Caso**
